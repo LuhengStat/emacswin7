@@ -1,2 +1,2 @@
 # emacswin7
-emacs config for win7
+wlh emacs config for win7
