@@ -1,8 +1,6 @@
 
-;; Emacs China ELPA
-(setq package-archives
-      '(("gnu"   . "https://elpa.emacs-china.org/gnu/")
-        ("melpa" . "https://elpa.emacs-china.org/melpa/")))
+(setq package-archives '(("gnu"   . "http://elpa.zilongshanren.com/gnu/")
+                         ("melpa" . "http://elpa.zilongshanren.com/melpa/")))
 
 ;; TNUA ELPA
 ;; (setq package-archives
@@ -63,15 +61,14 @@
 (eval-when-compile
   (require 'use-package))
 
+(require 'counsel)
 (use-package ivy-mode
   :commands ivy-mode
   :init
-  (setq ivy-use-virtual-buffers t)
-  ;; cycle past the last and the first candidates respectively
-  (setq ivy-wrap t)
-  ;; do not use "^" for the ivy-M-x
-  (setq ivy-initial-inputs-alist nil)
-  (setq ivy-count-format "(%d/%d) ")
+  (setq ivy-use-virtual-buffers t
+	ivy-wrap t
+	ivy-initial-inputs-alist nil
+	ivy-count-format "(%d/%d) ")
   ;; set for the swiper
   (defun mydef-push-mark-swiper ()
     "push a mark to add the current position to the mark ring"
@@ -96,6 +93,7 @@
   ("C-r" . counsel-expression-history)
   ("C-c C-g" . counsel-mark-ring)
   ("\C-xg" . counsel-bookmark)
+  ("M-g" . counsel-projectile)
   )
 
 
@@ -107,17 +105,19 @@
   (setq projectile-indexing-method 'native)
   (setq projectile-enable-caching t)
   (setq projectile-completion-system 'ivy)
+  (setq projectile-mode-line-function '(lambda ()
+					 (format " P[%s]" (projectile-project-name))))
   )
-(global-set-key (kbd "M-g") 'counsel-projectile-find-file)
 
-(use-package company-mode
-  :bind (:map company-active-map
-	      ("C-h". company-show-doc-buffer)
-	      ("C-n". company-select-next)
-	      ("C-p". company-select-previous)
-	      ([tab]. company-complete-common)
-	      )
-  :init
+
+
+;; (use-package company-mode
+;;   :bind (:map company-active-map
+;; 	      ("C-h". company-show-doc-buffer)
+;; 	      ("C-n". company-select-next)
+;; 	      ("C-p". company-select-previous)
+;; 	      )
+;;   :init
   (setq company-selection-wrap-around t
 	company-tooltip-align-annotations t
 	company-idle-delay 0
@@ -125,15 +125,16 @@
 	company-tooltip-limit 9
 	company-show-numbers t)
   (global-company-mode)
-  (company-tng-configure-default)
-  ;; (add-hook 'elpy-mode-hook
-  ;;           (lambda ()
-  ;;             (set (make-local-variable 'company-backends)
-  ;;                  (append company-backends '(company-yasnippet)))))
-  ;; (add-hook 'inferior-python-mode-hook
-  ;;           (lambda ()
-  ;;             (set (make-local-variable 'company-backends)
-  ;;                  (append company-backends '(company-yasnippet company-other-backend)))))
+  ;;(company-tng-configure-default)
+  (add-hook 'elpy-mode-hook
+            (lambda ()
+              (set (make-local-variable 'company-backends)
+                   (append company-backends '(company-yasnippet)))))
+  (add-hook 'inferior-python-mode-hook
+            (lambda ()
+              (set (make-local-variable 'company-backends)
+                   (append company-backends
+			   '(company-yasnippet company-other-backend)))))
   ;; ;; (add-hook 'ess-mode-hook
   ;; ;; 	  (lambda ()
   ;; ;; 	    (set (make-local-variable 'company-backends)
@@ -150,23 +151,11 @@
   ;; 		   (list
   ;; 		    (cons 'company-yasnippet
   ;; 			  (car company-backends))))))
-  )
+;;  )
 
 ;;(require 'company-tabnine)
 ;;(add-to-list 'company-backends #'company-tabnine)
-;; Trigger completion immediately.
-(setq company-idle-delay 0)
 
-;; Number the candidates (use M-1, M-2 etc to select completions).
-(setq company-show-numbers t)
-
-;; Use the tab-and-go frontend.
-;; Allows TAB to select and complete at the same time.
-(company-tng-configure-default)
-(setq company-frontends
-      '(company-tng-frontend
-        company-pseudo-tooltip-frontend
-        company-echo-metadata-frontend))
 
 (use-package ace-window
   :init
@@ -190,7 +179,6 @@
   ("M-1" . delete-other-windows)
   ("M-2" . split-window-below)
   ("M-3" . split-window-right)
-  ("M-e" . counsel-ag)
   ("M-k" . kill-this-buffer)
   ("<f10>" . toggle-frame-maximized)
   ("M-\\" . nil)
@@ -239,9 +227,6 @@
     (interactive)
     (call-interactively 'avy-goto-char)
     (forward-char))
-  (add-hook 'flyspell-mode-hook
-	    (lambda ()
-	      (define-key flyspell-mode-map (kbd "C-;") nil)))
   (global-set-key [(control ?\;)] 'avy-goto-char)
   :bind
   ("C-'" . avy-goto-line)
@@ -251,6 +236,8 @@
 
 (use-package counsel)
 
+(require 'yasnippet)
+(yas-global-mode 1)
 
 ;; calendar of china
 ;; (require 'cal-china-x)

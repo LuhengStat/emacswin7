@@ -1,4 +1,3 @@
-
 (if (get-buffer "*ESS*")
     (kill-buffer "*ESS*")
   )
@@ -6,36 +5,35 @@
 (blink-cursor-mode 0)
 (defun s-cursor()
   ;; set cursor-type with a line
-  (setq-default cursor-type 'bar)
+  ;;(setq-default cursor-type 'bar)
   ;; set cursor color
-  (set-cursor-color "#3180f1")
+  (set-cursor-color "#007ed9")
   )
 (if window-system
     (s-cursor))
 
 (menu-bar-mode -1)
+(tool-bar-mode -1)
 (set-face-attribute 'fringe nil :background nil)
 
 (unless (display-graphic-p)
   (menu-bar-mode -1))
-(unless (display-graphic-p)
-  (load-theme 'spacemacs-dark t))
-(load-theme 'sanityinc-tomorrow-eighties t)
+;; (unless (display-graphic-p)
+;;   (load-theme 'spacemacs-dark t))
 
-;; (if (string-equal system-type "windows-nt") ; Microsoft Windows
-;;   (load-theme 'sanityinc-tomorrow-eighties t))
+;;(load-theme 'sanityinc-tomorrow-eighties t)
+;;(load-theme 'spacemacs-dark t)
 
 (setq truncate-lines nil)
 (setq truncate-partial-width-Win nil)
 (add-hook 'org-mode-hook (lambda () (setq truncate-lines nil)))
 
 ;; line-spacing
-(setq-default line-spacing 4)
-(sml/setup)
-(custom-set-faces
- '(mode-line ((t (:background "grey75" :foreground "black" :box (:line-width -1 :style released-button)))))
- '(mode-line-inactive ((t (:inherit mode-line :background "grey90" :foreground "grey20" :box (:line-width -1 :color "grey75") :weight light)))))
-(setq modelinesize 115)
+(setq-default line-spacing 6)
+;;(sml/setup)
+;;(setq sml/projectile-replacement-format "")
+
+(setq modelinesize 105)
 (set-face-attribute 'mode-line nil :height modelinesize)
 (set-face-attribute 'mode-line-inactive nil  :height modelinesize)
 (toggle-frame-maximized)
@@ -85,7 +83,6 @@
     helm-mode
     undo-tree-mode
     auto-complete-mode
-    flyspell-mode
     inf-haskell-mode
     haskell-indent-mode
     haskell-doc-mode
@@ -106,7 +103,7 @@
     hungry-delete-mode
     auto-revert-mode
     buffer-face-mode
-    flyspell-mode    
+    highlight-indentation-mode
     ))
 
 (defun purge-minor-modes ()
@@ -199,6 +196,13 @@
   (buffer-face-mode))
 (add-hook 'inferior-python-mode-hook 'my-buffer-face-mode-smaller)
 (add-hook 'inferior-ess-mode-hook 'my-buffer-face-mode-smaller)
+(defun ui-latex-mode ()
+  "font in the inferiror python or ess mode"
+  (interactive)
+  (setq buffer-face-mode-face '(:family "Consolas" :height 145))
+  (buffer-face-mode))
+(add-hook 'LaTeX-mode-hook 'ui-latex-mode)
+
 
 ;;;; Set env of edit
 (setq locale-coding-system 'utf-8)
@@ -218,7 +222,7 @@
 (setq ns-pop-up-frames nil)
 
 ;; choose horizon window if proper
-(setq split-width-threshold 140)
+;;(setq split-width-threshold 140)
 
 ;;show file path
 ;; (setq frame-title-format

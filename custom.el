@@ -3,56 +3,36 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ansi-color-faces-vector
-   [default bold shadow italic underline bold bold-italic bold])
- '(ansi-color-names-vector
-   (vector "#2d2d2d" "#f2777a" "#99cc99" "#ffcc66" "#6699cc" "#cc99cc" "#66cccc" "#cccccc"))
- '(beacon-color "#f2777a")
  '(blink-cursor-mode nil)
  '(custom-safe-themes
-   '("628278136f88aa1a151bb2d6c8a86bf2b7631fbea5f0f76cba2a0079cd910f7d" "a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" default))
- '(fancy-splash-image nil)
- '(fci-rule-color "#515151")
- '(flycheck-color-mode-line-face-to-color 'mode-line-buffer-id)
- '(frame-background-mode 'dark)
+   '("a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223" "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" default))
  '(package-selected-packages
-   '(company-auctex magit color-theme-sanityinc-tomorrow git-timemachine spacemacs-theme youdao-dictionary smart-mode-line ztree hungry-delete dim ace-window cal-china-x popwin counsel-projectile projectile py-autopep8 flycheck elpy expand-region auto-complete-auctex iedit transpose-frame browse-kill-ring yasnippet undo-tree avy autopair counsel swiper highlight-parentheses auto-complete use-package))
- '(safe-local-variable-values
-   '((ffip-project-root . "/Users/wlh/Documents/Learning/Papers/8 RCV in Covariance matrix estimation/Slide 2018-01-04/")))
+   '(company-auctex esup math-symbol-lists ztree youdao-dictionary use-package unicode-escape undo-tree transpose-frame spacemacs-theme smart-mode-line rg py-autopep8 popwin markdown-mode magit iedit hungry-delete highlight-parentheses graphviz-dot-mode git-timemachine flyspell-correct-popup flycheck expand-region exec-path-from-shell evil elpy dim counsel-projectile color-theme-sanityinc-tomorrow cal-china-x browse-kill-ring autopair auto-complete-auctex ag ace-window))
+ '(safe-local-variable-values '((projectile-project-name . "PhdThesis")))
  '(scroll-bar-mode nil)
  '(scroll-conservatively 1000)
  '(scroll-margin 3)
  '(show-paren-mode t)
- '(sml/modified-char " * ")
- '(sml/projectile-replacement-format "")
- '(tool-bar-mode nil)
- '(vc-annotate-background nil)
- '(vc-annotate-color-map
-   '((20 . "#f2777a")
-     (40 . "#f99157")
-     (60 . "#ffcc66")
-     (80 . "#99cc99")
-     (100 . "#66cccc")
-     (120 . "#6699cc")
-     (140 . "#cc99cc")
-     (160 . "#f2777a")
-     (180 . "#f99157")
-     (200 . "#ffcc66")
-     (220 . "#99cc99")
-     (240 . "#66cccc")
-     (260 . "#6699cc")
-     (280 . "#cc99cc")
-     (300 . "#f2777a")
-     (320 . "#f99157")
-     (340 . "#ffcc66")
-     (360 . "#99cc99")))
- '(vc-annotate-very-old-color nil)
- '(window-divider-mode nil))
+ '(sml/theme 'respectful)
+ '(tool-bar-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(iedit-occurrence ((t (:inherit isearch))))
- '(mode-line ((t (:background "grey75" :foreground "black" :box (:line-width -1 :style released-button)))))
- '(mode-line-inactive ((t (:inherit mode-line :background "grey90" :foreground "grey20" :box (:line-width -1 :color "grey75") :weight light)))))
+ '(error ((t (:foreground "Red" :weight normal))))
+ '(font-latex-script-char-face ((t (:foreground "SaddleBrown"))))
+ '(font-latex-sectioning-0-face ((t (:inherit font-latex-sectioning-1-face))))
+ '(font-latex-sectioning-1-face ((t (:inherit font-latex-sectioning-2-face))))
+ '(font-latex-sectioning-2-face ((t (:inherit font-latex-sectioning-3-face))))
+ '(font-latex-sectioning-3-face ((t (:inherit font-latex-sectioning-4-face))))
+ '(font-latex-sectioning-4-face ((t (:inherit font-latex-sectioning-5-face))))
+ '(font-latex-sectioning-5-face ((t (:inherit variable-pitch :foreground "blue4"))))
+ '(font-latex-sedate-face ((t (:foreground "midnight blue"))))
+ '(font-latex-subscript-face ((t nil)))
+ '(font-latex-superscript-face ((t nil)))
+ '(font-latex-warning-face ((t (:foreground "red"))))
+ '(iedit-occurrence ((t (:inherit nil :background "medium slate blue"))))
+ '(org-agenda-clocking ((t (:background "SkyBlue1")))))
+
+

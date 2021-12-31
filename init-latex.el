@@ -1,9 +1,5 @@
-;; "C:\Program Files\GNU Emacs 26.1\bin\emacsclient.exe" --no-wait +%l "%f"
-;; "C:\Program Files\WinEdt Team\WinEdt 10\WinEdt.exe" "[Open(|%f|);SelPar(%l,8)]
-;;(require 'auto-complete-auctex)
-;;(require 'company-auctex)
-;;(company-auctex-init)
-
+(require 'company-auctex)
+(company-auctex-init)
 
 ;; for the \left \right part 
 (add-hook 'latex-mode-hook
@@ -13,7 +9,6 @@
           (lambda ()
 	    (autopair-mode -1)))
 (setq-default LaTeX-electric-left-right-brace t)
-
 
 ;; two dollars in one time
 (defun brf-TeX-Inserting (sta stb stc num)
@@ -32,8 +27,6 @@
    (function (lambda ()
 	       (local-set-key (kbd "$") 'brf-TeX-dollarm))))
 
-
-
 ;; Only change sectioning colour
 ;;(setq font-latex-fontify-sectioning 'color)
 
@@ -49,7 +42,6 @@
 ;;(setq font-latex-deactivated-keyword-classes
 ;;      '("italic-command" "bold-command" "italic-declaration" "bold-declaration"))
 
-
 (setq-default TeX-parse-self t) ;; Enable parsing of the file itself on load
 (setq-default TeX-auto-save t) ;; Enable save on command executation (e.g., LaTeX)
 (setq-default TeX-save-query nil) ;; Don't even ask about it
@@ -59,6 +51,7 @@
 
 ;; Synctex for windows
 (setq-default TeX-source-correlate-mode t) ;; Enable synctex
+(setq TeX-source-correlate-method 'synctex)
 (setq-default TeX-source-correlate-start-server t)
 
 ;; Turn on RefTeX in AUCTeX
@@ -67,12 +60,10 @@
 (setq reftex-plug-into-AUCTeX t)
 ;; set a cite type
 ;;(setq reftex-cite-format 'natbib)
-
  	
 (setq-default TeX-master nil) ; Query for master file.
 ;; do not promot for the reference <2018-01-23 Tue> 
 (setq reftex-ref-macro-prompt nil)
-
 
 (setq font-latex-match-reference-keywords
   '(
@@ -83,56 +74,56 @@
     ("citep" "[{")
     ))
 
-
 ;; AucTeX
 (add-hook 'LaTeX-mode-hook 'visual-line-mode)
 ;;(add-hook 'LaTeX-mode-hook (lambda () (setq truncate-lines t)))
-
-;; (setq ispell-program-name "/usr/local/bin/aspell")
-;; (add-hook 'LaTeX-mode-hook 'flyspell-mode)
-;; ;;(require 'flyspell-correct-ivy)
-;; (require 'flyspell-correct-popup)
-;; (define-key flyspell-mode-map (kbd "C-c <tab>") 'flyspell-correct-previous-word-generic)
-
+(setq ispell-program-name "/usr/local/bin/aspell")
+;;(add-hook 'LaTeX-mode-hook 'flyspell-mode)
+;;(require 'flyspell-correct-ivy)
+;;(require 'flyspell-correct-popup)
+;;(define-key flyspell-mode-map (kbd "C-c <tab>") 'flyspell-correct-previous-word-generic)
 (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
 (setq reftex-plug-into-AUCTeX t)
 (setq TeX-PDF-mode t)
 
-
 ;; use Skim as default pdf viewer
 ;; Skim's displayline is used for forward search (from .tex to .pdf)
 ;; option -b highlights the current line; option -g opens Skim in the background  
+(cond
+ ((string-equal system-type "windows-nt") ; Microsoft Windows
+  (progn (setq TeX-view-program-selection '((output-pdf "SumatraPDF")))))
+ ((string-equal system-type "darwin") ; Mac OS X
+  (progn (setq TeX-view-program-selection '((output-pdf "Skim")))))
+ ((string-equal system-type "gnu/linux") ; linux
+  (progn (message "Linux"))))
 (setq TeX-view-program-list
-   '(("Sumatra PDF" ("\"C:/Program Files/SumatraPDF/SumatraPDF.exe\" -reuse-instance"
-          (mode-io-correlate " -forward-search %b %n ") " %o"))))
-
-(eval-after-load 'tex
-  '(progn
-     (assq-delete-all 'output-pdf TeX-view-program-selection)
-     (add-to-list 'TeX-view-program-selection '(output-pdf "Sumatra PDF"))))
-
+      '(("Skim" "/Applications/Skim.app/Contents/SharedSupport/displayline -b %n %o %b")
+	("SumatraPDF"
+         ("\"C:/Users/luheng-wai/AppData/Local/SumatraPDF/SumatraPDF.exe\" -reuse-instance" 
+          (mode-io-correlate " -forward-search \"%b\" %n ") " %o"))
+	))
 
 ;; set the face of the toc 
 (defface mydef-reftex-section-heading-face
-  '((t :inherit font-lock-function-name-face :height 125))
+  '((t :inherit font-lock-function-name-face :height 120))
   "My RefTeX section heading face.")
 (setq reftex-section-heading-face 'mydef-reftex-section-heading-face)
 
 ;; description of the toc buffer
 (defface mydef-reftex-toc-header-face
-  '((t :inherit font-lock-doc-face :height 115))
+  '((t :inherit font-lock-doc-face :height 120))
   "My RefTeX section heading face.")
 (setq reftex-toc-header-face 'mydef-reftex-toc-header-face)
 
 ;; 2016 Statistica Sinica 26, 69--95
 (defface mydef-reftex-bib-extra-face
-  '((t :inherit font-lock-comment-face :height 136))
+  '((t :inherit font-lock-comment-face :height 120))
   "My RefTeX section heading face.")
 (setq reftex-bib-extra-face 'mydef-reftex-bib-extra-face)
 (setq reftex-bib-year-face 'mydef-reftex-bib-extra-face)
 
 (defface mydef-reftex-bib-extra-face
-  '((t :inherit font-lock-comment-face :height 136))
+  '((t :inherit font-lock-comment-face :height 120))
   "My RefTeX section heading face.")
 (setq reftex-index-header-face 'mydef-reftex-bib-extra-face)
 (setq reftex-index-section-face 'mydef-reftex-bib-extra-face)
@@ -140,6 +131,7 @@
 (setq reftex-index-face 'mydef-reftex-bib-extra-face)
 
 
+;; redefine some keyblindings for the Latex mode
 (add-hook 'LaTeX-mode-hook
 	  (lambda ()
 	    (define-key LaTeX-mode-map (kbd "C-c C-c") 'TeX-command-run-all)
@@ -149,23 +141,15 @@
 	    (define-key LaTeX-mode-map (kbd "C-c 0") 'LaTeX-close-environment)
 	    (define-key LaTeX-mode-map (kbd "C-c 9") 'reftex-label)
 	    (define-key LaTeX-mode-map (kbd "C-c ]") 'reftex-reference)
-	    (turn-on-auto-fill)
-	    ))
-(add-hook 'latex-mode-hook
-	  (lambda ()
-	    (define-key LaTeX-mode-map (kbd "C-c C-c") 'TeX-command-run-all)
-	    (define-key LaTeX-mode-map (kbd "s-r") 'TeX-command-run-all)
-	    (define-key LaTeX-mode-map (kbd "C-c C-a") 'TeX-command-master)
-	    (define-key LaTeX-mode-map (kbd "C-c )") 'LaTeX-close-environment)
-	    (define-key LaTeX-mode-map (kbd "C-c 0") 'LaTeX-close-environment)
-	    (define-key LaTeX-mode-map (kbd "C-c 9") 'reftex-label)
 	    (define-key LaTeX-mode-map (kbd "C-c ]") 'reftex-reference)
+	    (define-key LaTeX-mode-map (kbd "<double-mouse-1>") 'TeX-view)
 	    (turn-on-auto-fill)
 	    ))
 (add-hook 'reftex-mode-hook
 	  (lambda ()
 	    (define-key reftex-mode-map (kbd "C-c )") 'LaTeX-close-environment)
 	    (define-key reftex-mode-map (kbd "C-c 7") 'reftex-view-crossref)))
+
 
 (defun mydef-choose-horizon-toc ()
   "autotically choose whether to set the reftex-toc-split-window 
@@ -197,7 +181,8 @@ true or not"
 	    ))
 
 
-
-
 (provide 'init-latex)
 
+
+;; "C:\Program Files\WinEdt Team\WinEdt 10\WinEdt.exe" -C="WinEdt 10.2" "[Open(|%f|);SelPar(%l,8);]"
+;; "C:\Program Files\GNU Emacs 27.2\bin\emacsclientw.exe" --no-wait +%l "%f" 

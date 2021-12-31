@@ -1,5 +1,5 @@
 
-;;(server-start)
+(server-start)
 (setq ring-bell-function 'ignore)
 ;; change all prompts to y or n
 (fset 'yes-or-no-p 'y-or-n-p)
@@ -8,8 +8,6 @@
 ;;(desktop-save-mode 1)
 ;; remember cursor position, for emacs 25.1 or later
 (save-place-mode 1)
-
-(setq default-directory "/Users/wlh/Documents")
 
 ;; automatically focus on the new window
 (add-to-list 'display-buffer-alist
@@ -34,14 +32,12 @@
 (require 'recentf)
 (recentf-mode 1)
 (setq recentf-auto-cleanup 'never) ;; in case if use Tramp
-(setq recentf-max-saved-items 1000)
+(setq recentf-max-saved-items 200)
 ;; open recent files when satart up
 ;;(recentf-open-files)
 (add-to-list 'recentf-exclude "~/.emacs.d/bookmarks")
 (add-to-list 'recentf-exclude "\\.rip\\'")
 (add-to-list 'recentf-exclude "\\.gz\\'")
-(add-to-list 'recentf-exclude "/Users/wlh/Documents/GitHub/emacsfile")
-(add-to-list 'recentf-exclude "/Users/wlh/Documents/Personal/phd/毕业论文/bak")
 (add-to-list 'recentf-exclude "\\.lof\\'")
 (add-to-list 'recentf-exclude "\\.log\\'")
 (add-to-list 'recentf-exclude "\\.sty\\'")
@@ -74,8 +70,11 @@ If the new path's directories does not exist, create them."
       emacs-tmp-dir)
 
 
-(setq-default abbrev-mode t)
-(define-abbrev-table 'global-abbrev-table '(;; my address
+(setq-default abbrev-mode nil)
+(define-abbrev-table 'global-abbrev-table '(
+					    ;; name
+					    ;; ("wlh" "Luheng Wang")
+					    ;; my address
 					    ("myadd" "10 Vairo Village, State College.")
 					    ;; work address
 					    ("workadd" "Methodology Center, PSU, State College.")
@@ -84,7 +83,6 @@ If the new path's directories does not exist, create them."
 					    ;; my email address
 					    ("mygmail" "wlh0426@gmail.com")
 					    ))
-
 
 
 ;; set better mouse scroll type
@@ -102,11 +100,6 @@ If the new path's directories does not exist, create them."
 (setq save-interprogram-paste-before-kill t)
 
 
-;; close emacs without ask the existing process 
-(add-hook 'comint-exec-hook 
-	  (lambda () (set-process-query-on-exit-flag (get-buffer-process (current-buffer)) nil)))
-
-
 ;; auto mark ring
 (when (require 'auto-mark nil t)
   (setq auto-mark-command-class-alist
@@ -122,24 +115,6 @@ If the new path's directories does not exist, create them."
   (global-auto-mark-mode 1))
 
 
-;; disable mouse in emacs
-(define-minor-mode disable-mouse-mode
-  "A minor-mode that disables all mouse keybinds."
-  :global t
-  :lighter "mouse"
-  :keymap (make-sparse-keymap))
-
-(dolist (type '(mouse down-mouse drag-mouse
-                      double-mouse triple-mouse))
-  (dolist (prefix '("" C- M- S- M-S- C-M- C-S- C-M-S-))
-    ;; Yes, I actually HAD to go up to 7 here.
-    (dotimes (n 7)
-      (let ((k (format "%s%s-%s" prefix type n)))
-        (define-key disable-mouse-mode-map
-          (vector (intern k)) #'ignore)))))
-
-(disable-mouse-mode 0)
-
 (remove-hook 'text-mode-hook #'turn-on-auto-fill)
 (add-hook 'text-mode-hook #'visual-line-mode)
 
@@ -151,20 +126,12 @@ If the new path's directories does not exist, create them."
       (unless (file-exists-p dir)
         (make-directory dir)))))
 
-;; define RET behavior in python and R
-(defun mydef-RET ()
-  (interactive)
-  (setq current-line (what-line))
-  (end-of-buffer)
-  (if (string=  current-line (what-line))
-      (comint-send-input)))
-
-(setenv "PATH" (concat (getenv "PATH") ";C:/cygwin64/bin"))
-(add-to-list 'exec-path "C:/Program Files/MySQL/MySQL Server 8.0/bin")
-
-(setq sql-mysql-options '("-C" "-f" "-t" "-n")) ; for windows
-(setq sql-user "root")
-(setq sql-password "")
-
+(when
+    (eq system-type 'windows-nt)
+  (setq gc-cons-threshold (* 512 1024 1024))
+  (setq gc-cons-percentage 0.5)
+  (run-with-idle-timer 5 t #'garbage-collect) 
+  (setq garbage-collection-messages nil) )
 
 (provide 'init-better-defaults)
+
