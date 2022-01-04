@@ -142,6 +142,7 @@
 	    (define-key LaTeX-mode-map (kbd "C-c 9") 'reftex-label)
 	    (define-key LaTeX-mode-map (kbd "C-c ]") 'reftex-reference)
 	    (define-key LaTeX-mode-map (kbd "C-c ]") 'reftex-reference)
+	    (define-key LaTeX-mode-map (kbd "M-\\") 'LaTeX-fill-region-as-para-do)
 	    (define-key LaTeX-mode-map (kbd "<double-mouse-1>") 'TeX-view)
 	    (turn-on-auto-fill)
 	    ))
